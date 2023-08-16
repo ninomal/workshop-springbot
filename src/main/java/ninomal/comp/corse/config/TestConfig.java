@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Profile;
 
 import ninomal.comp.corse.entities.Category;
 import ninomal.comp.corse.entities.Order;
+import ninomal.comp.corse.entities.OrderItem;
 import ninomal.comp.corse.entities.Product;
 import ninomal.comp.corse.entities.User;
 import ninomal.comp.corse.enums.OrderStatus;
 import ninomal.comp.corse.repositories.CategoryRepository;
+import ninomal.comp.corse.repositories.OrderItemRepository;
 import ninomal.comp.corse.repositories.OrderRepository;
 import ninomal.comp.corse.repositories.ProductRepository;
 import ninomal.comp.corse.repositories.UserRepository;
@@ -21,6 +23,9 @@ import ninomal.comp.corse.repositories.UserRepository;
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
+	
+	@Autowired
+	private OrderItemRepository orderItemRep;
 	
 	@Autowired
 	private ProductRepository productRepository;
@@ -66,6 +71,13 @@ public class TestConfig implements CommandLineRunner {
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 		category.saveAll(Arrays.asList(cat1, cat2, cat3));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+		
+		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+		OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+		OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+		OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+		
+		orderItemRep.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 	}
 	
 }
