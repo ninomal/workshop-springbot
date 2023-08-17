@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 
 import ninomal.comp.corse.entities.User;
 import ninomal.comp.corse.repositories.UserRepository;
+import ninomal.comp.corse.resource.exception.ResourceExceptionHandler;
+import ninomal.comp.corse.service.exception.ResourceNotFoundException;
 
 @Service
 public class UserService{
@@ -21,7 +23,7 @@ public class UserService{
 	
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
-		return obj.get();
+		return obj.orElseThrow(() -> new ResourceNotFoundException(id));
 	}
 	
 	public User insert(User obj) {
